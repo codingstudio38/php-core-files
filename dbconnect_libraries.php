@@ -1,8 +1,10 @@
 <?php
 require "libraries/vendor/autoload.php";
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 session_start();
-$connect = new mysqli("localhost", "root", "", "codeigniter_new_app2");
+$connect = new mysqli($_ENV['HOST'], $_ENV['BD_USER_NAME'], $_ENV['BD_PASSWORD'], $_ENV['BD_NAME']);
 if ($connect->connect_errno) {
     echo "Failed to connect to MySQL: " . $connect->connect_error;
     exit();
@@ -22,8 +24,7 @@ if ($connect->connect_errno) {
 // Xlsx
 //1- composer require phpoffice/phpspreadsheet 
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+
 
 
 $google_client = new \Google_Client();
