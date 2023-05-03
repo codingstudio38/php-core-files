@@ -16,6 +16,7 @@
         "google/apiclient": "2.12.1",
         "facebook/graph-sdk": "^5.7",
         "phpoffice/phpspreadsheet": "^1.28",
-        "dompdf/dompdf": "^2.0"
+        "dompdf/dompdf": "^2.0",
+        "vlucas/phpdotenv": "^5.5"
     }
 }

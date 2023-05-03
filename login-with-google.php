@@ -1,6 +1,6 @@
 <?php
-require "db-connect.php";
-require "libraries.php";
+require "dbconnect_libraries.php";
+
 if (isset($_GET['code']) && $_GET['code'] !== "") {
     $code = $_GET['code'];
     $token = $google_client->fetchAccessTokenWithAuthCode($code);

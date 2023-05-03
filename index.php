@@ -1,6 +1,9 @@
 <?php
-require "db-connect.php";
-require "libraries.php";
+require "dbconnect_libraries.php";
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 
 if (isset($_GET['export_pdf'])) {
     $html = file_get_contents("pdf.php");
@@ -61,6 +64,35 @@ if (isset($_FILES['excelfile'])) {
     print_r($excel_array);
     echo "</pre>";
 }
+if (isset($_GET['export_xl'])) {
+    $sql = "SELECT * FROM `users_tbl`";
+    $result = mysqli_query($connect, $sql);
+    $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    $fileName = date("YmdHis") . "-" . rand(10, 100) . '.xlsx';
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+    $sheet->setCellValue('A1', 'Id');
+    $sheet->setCellValue('B1', 'Name');
+    $sheet->setCellValue('C1', 'Email');
+    $sheet->setCellValue('D1', 'Phone');
+    $sheet->setCellValue('E1', 'Picture');
+    $sheet->setCellValue('F1', 'Created Date');
+    $rows = 2;
+    foreach ($data as $val) {
+        $sheet->setCellValue('A' . $rows, $val['id']);
+        $sheet->setCellValue('B' . $rows, $val['name']);
+        $sheet->setCellValue('C' . $rows, $val['email']);
+        $sheet->setCellValue('D' . $rows, $val['phone']);
+        $sheet->setCellValue('E' . $rows, $val['picture']);
+        $sheet->setCellValue('F' . $rows, $val['created_at']);
+        $rows++;
+    }
+    $writer = new Xlsx($spreadsheet);
+    $writer->save("xl-export/" . $fileName);
+    header("Content-Type: application/vnd.ms-excel");
+    header("location:xl-export/$fileName");
+}
 ?>
 
 <!DOCTYPE html>
@@ -84,11 +116,12 @@ if (isset($_FILES['excelfile'])) {
     <a href="<?= $fbloginbutton; ?>" class="btn btn-success btn-sm">Facebook Login</a><br><br>
     <a href="<?= $google_loginbutton; ?>" class="btn btn-danger btn-sm">Google Login</a><br><br>
     <a href="index.php?export_pdf=1" class="btn btn-info btn-sm">PDF Export</a><br><br>
+    <a href="index.php?export_xl=1" class="btn btn-warning btn-sm">Excel Export</a><br><br>
 
     <form action="index.php" method="POST" enctype="multipart/form-data">
         <input type="file" name="excelfile" required>
 
-        <input type="submit" name="submit">
+        <input type="submit" name="submit" class="btn btn-primary btn-sm">
     </form>
 
 </body>

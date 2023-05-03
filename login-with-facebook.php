@@ -1,6 +1,6 @@
 <?php
-require "db-connect.php";
-require "libraries.php";
+require "dbconnect_libraries.php";
+
 if (isset($_GET['state']) && $_GET['state'] !== "") {
     $facebook_helper->getPersistentDataHandler()->set("state", $_GET['state']);
 } else {
