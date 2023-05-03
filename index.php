@@ -1,6 +1,6 @@
 <?php
 
-require "dbconnect_libraries.php";
+require __DIR__."/dbconnect_libraries.php";
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;

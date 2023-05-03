@@ -1,5 +1,5 @@
 <?php
-require "libraries/vendor/autoload.php";
+require  __DIR__."/libraries/vendor/autoload.php";
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
