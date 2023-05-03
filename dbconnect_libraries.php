@@ -3,13 +3,6 @@ require "libraries/vendor/autoload.php";
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-session_start();
-$connect = new mysqli($_ENV['HOST'], $_ENV['BD_USER_NAME'], $_ENV['BD_PASSWORD'], $_ENV['BD_NAME']);
-if ($connect->connect_errno) {
-    echo "Failed to connect to MySQL: " . $connect->connect_error;
-    exit();
-}
-
 //1- app\Libraries -> composer init
 
 // google
@@ -24,9 +17,8 @@ if ($connect->connect_errno) {
 // Xlsx
 //1- composer require phpoffice/phpspreadsheet 
 
-
-
-
+//phpdotenv
+//1- composer require vlucas/phpdotenv
 $google_client = new \Google_Client();
 $google_client->setClientId("405380673874-cbp1ep7r2otbtrt75cu4chs4ug9hk6e4.apps.googleusercontent.com");
 $google_client->setClientSecret("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");
@@ -45,3 +37,11 @@ $facebook = new \Facebook\Facebook(
 );
 $facebook_helper = $facebook->getRedirectLoginHelper();
 $fbloginbutton = $facebook_helper->getLoginUrl('https://localhost/codeIgniter/php-core/login-with-facebook.php', array("email"));
+
+session_start();
+$connect = new mysqli($_ENV['HOST'], $_ENV['BD_USER_NAME'], $_ENV['BD_PASSWORD'], $_ENV['BD_NAME']);
+if ($connect->connect_errno) {
+    echo "Failed to connect to MySQL: " . $connect->connect_error;
+    exit();
+}
+
