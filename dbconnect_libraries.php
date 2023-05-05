@@ -1,12 +1,8 @@
 <?php
-require  __DIR__."/libraries/vendor/autoload.php";
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
-
 //1- app\Libraries -> composer init
 
 // google
-//2- composer require google/apiclient:^2.12.1
+//1- composer require google/apiclient:^2.12.1
 
 // facebook
 //1- composer require facebook/graph-sdk
@@ -19,6 +15,12 @@ $dotenv->load();
 
 //phpdotenv
 //1- composer require vlucas/phpdotenv
+
+require  __DIR__."/libraries/vendor/autoload.php";
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+
 $google_client = new \Google_Client();
 $google_client->setClientId("405380673874-cbp1ep7r2otbtrt75cu4chs4ug9hk6e4.apps.googleusercontent.com");
 $google_client->setClientSecret("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");

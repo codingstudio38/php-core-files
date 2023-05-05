@@ -5,7 +5,7 @@ require __DIR__."/dbconnect_libraries.php";
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-
+ 
 if (isset($_GET['export_pdf'])) {
     $html = file_get_contents("pdf.php");
     $dompdf = new \Dompdf\Dompdf();
