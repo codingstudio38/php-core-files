@@ -94,6 +94,35 @@ if (isset($_GET['export_xl'])) {
     header("Content-Type: application/vnd.ms-excel");
     header("location:xl-export/$fileName");
 }
+
+
+$sql = "SELECT * FROM `users_tbl`";
+//==============
+// $result = mysqli_query($connect, $sql);
+// $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
+// $data = $result->fetch_row();
+// $data = $result->fetch_assoc();
+//==============
+
+
+
+//==============
+// $result = mysqli_query($connect, $sql);
+// $data = mysqli_fetch_assoc($result);
+//==============
+
+
+
+//==============
+$query = $connectionPDO->prepare($sql);
+$query->execute();
+$data=$query->fetch(PDO::FETCH_OBJ);//$query->fetchAll(PDO::FETCH_OBJ);
+$total = $query->rowCount();
+//==============
+
+echo "<pre>";
+print_r($data);
+echo "</pre>";
 ?>
 
 <!DOCTYPE html>

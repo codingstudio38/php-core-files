@@ -43,7 +43,29 @@ $fbloginbutton = $facebook_helper->getLoginUrl('https://localhost/codeIgniter/ph
 session_start();
 $connect = new mysqli($_ENV['HOST'], $_ENV['BD_USER_NAME'], $_ENV['BD_PASSWORD'], $_ENV['BD_NAME']);
 if ($connect->connect_errno) {
-    echo "Failed to connect to MySQL: " . $connect->connect_error;
+    echo "Failed to connect to (new mysqli) MySQL: " . $connect->connect_error;
     exit();
 }
 
+$connect_mysqli = mysqli_connect($_ENV['HOST'], $_ENV['BD_USER_NAME'], $_ENV['BD_PASSWORD'], $_ENV['BD_NAME']);
+if (mysqli_connect_errno()){
+    echo "Failed to connect to (connect_mysql) MySQL: " . mysqli_connect_error();
+    exit();
+}
+
+// $connect_mysql = mysql_connect($_ENV['HOST'], $_ENV['BD_USER_NAME'], $_ENV['BD_PASSWORD'], $_ENV['BD_NAME']);
+// if (!$connect_mysql){
+//     echo "Failed to connect to (connect_mysql) MySQL: " . mysql_error();
+//     exit();
+// }
+
+
+  try{
+    $connectionPDO= new PDO("mysql:host=".$_ENV['HOST'].";dbname=".$_ENV['BD_NAME'],$_ENV['BD_USER_NAME'],$_ENV['BD_PASSWORD']);
+    $connectionPDO->setAttribute( PDO::ATTR_EMULATE_PREPARES, false );
+    $connectionPDO->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT );
+    $connectionPDO->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
+    $connectionPDO->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+  }catch(PDOException $error){ 
+    die("Failed to connect with MySQL: " . $error->getMessage()); 
+  }
