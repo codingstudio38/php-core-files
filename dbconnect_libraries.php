@@ -41,10 +41,15 @@ $facebook_helper = $facebook->getRedirectLoginHelper();
 $fbloginbutton = $facebook_helper->getLoginUrl('https://localhost/codeIgniter/php-core/login-with-facebook.php', array("email"));
 
 session_start();
+$connect = null;
+try{
 $connect = new mysqli($_ENV['HOST'], $_ENV['BD_USER_NAME'], $_ENV['BD_PASSWORD'], $_ENV['BD_NAME']);
 if ($connect->connect_errno) {
     echo "Failed to connect to (new mysqli) MySQL: " . $connect->connect_error;
     exit();
+}
+}catch(\Throwable $error){ 
+    die("Failed to connect with MySQLI: " . $error->getMessage()); 
 }
 
 $connect_mysqli = null;
