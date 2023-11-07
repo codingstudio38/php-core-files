@@ -47,25 +47,29 @@ if ($connect->connect_errno) {
     exit();
 }
 
+$connect_mysqli = null;
+try{
 $connect_mysqli = mysqli_connect($_ENV['HOST'], $_ENV['BD_USER_NAME'], $_ENV['BD_PASSWORD'], $_ENV['BD_NAME']);
-if (mysqli_connect_errno()){
-    echo "Failed to connect to (connect_mysql) MySQL: " . mysqli_connect_error();
-    exit();
+  if (mysqli_connect_errno()){
+      echo "Failed to connect to (connect_mysql) MySQL: " . mysqli_connect_error();
+      exit();
+  }
+}catch(\Throwable $error){ 
+    die("Failed to connect with MySQL: " . $error->getMessage()); 
 }
-
 // $connect_mysql = mysql_connect($_ENV['HOST'], $_ENV['BD_USER_NAME'], $_ENV['BD_PASSWORD'], $_ENV['BD_NAME']);
 // if (!$connect_mysql){
 //     echo "Failed to connect to (connect_mysql) MySQL: " . mysql_error();
 //     exit();
 // }
 
-
+$connectionPDO=null;
   try{
     $connectionPDO= new PDO("mysql:host=".$_ENV['HOST'].";dbname=".$_ENV['BD_NAME'],$_ENV['BD_USER_NAME'],$_ENV['BD_PASSWORD']);
     $connectionPDO->setAttribute( PDO::ATTR_EMULATE_PREPARES, false );
     $connectionPDO->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT );
     $connectionPDO->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
     $connectionPDO->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-  }catch(PDOException $error){ 
+  } catch(PDOException $error){ 
     die("Failed to connect with MySQL: " . $error->getMessage()); 
   }
