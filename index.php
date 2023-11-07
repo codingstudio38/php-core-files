@@ -120,9 +120,9 @@ $data=$query->fetch(PDO::FETCH_OBJ);//$query->fetchAll(PDO::FETCH_OBJ);
 $total = $query->rowCount();
 //==============
 
-echo "<pre>";
-print_r($data);
-echo "</pre>";
+// echo "<pre>";
+// print_r($data);
+// echo "</pre>";
 ?>
 
 <!DOCTYPE html>
