@@ -16,6 +16,9 @@
 //phpdotenv
 //1- composer require vlucas/phpdotenv
 
+//PHPMailer
+//1-composer require phpmailer/phpmailer
+
 require  __DIR__."/vendor/autoload.php";
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();

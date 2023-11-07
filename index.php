@@ -4,8 +4,53 @@ require __DIR__."/dbconnect_libraries.php";
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
- 
+if(isset($_GET['email'])){
+    try {
+     $mail = new PHPMailer(true);
+    //Server settings
+   
+    $mail->isSMTP();                                            //Send using SMTP
+     $mail->SMTPDebug = 2;                                      //Enable verbose debug output
+    $mail->Host       = 'smtp.gmail.com';                       //Set the SMTP server to send through
+    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+    $mail->Username   = 'onlinemessages0001@gmail.com';         //SMTP username
+    $mail->Password   = 'fatjvdeebvbyezrg';                     //SMTP password
+    $mail->SMTPSecure = 'tls';                                  //Enable implicit TLS encryption
+    $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+    //Recipients
+    $mail->setFrom('onlinemessages0001@gmail.com', 'Online Messages');
+    $mail->addAddress('mondalbidyut38@gmail.com', 'Bidyut');     //Add a recipient
+    // $mail->addAddress('ellen@example.com');                   //Name is optional
+    $mail->addReplyTo('onlinemessages0001@gmail.com', 'Information');
+    // $mail->addCC('cc@example.com');
+    // $mail->addBCC('bcc@example.com');
+
+    //Attachments
+    $mail->addAttachment(__DIR__."/import-excel.xlsx");         //Add attachments
+    // $mail->addAttachment(__DIR__."/import-excel.xlsx", 'myxlfile.xlsx');       //Optional name
+
+    //Content
+    $mail->isHTML(true);                                        //Set email format to HTML
+    $mail->Subject = 'Here is the subject';
+    $mail->Body    = file_get_contents(__DIR__."/mail.php");
+    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';//not mendetory
+
+    $mail->send();
+    $mail->ClearAllRecipients();
+    echo 'Message has been sent';
+} catch (Exception $e) {
+    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+}
+}
+
+
+
+
 if (isset($_GET['export_pdf'])) {
     $html = file_get_contents("pdf.php");
     $dompdf = new \Dompdf\Dompdf();
@@ -147,6 +192,7 @@ $total = $query->rowCount();
     <a href="<?= $google_loginbutton; ?>" class="btn btn-danger btn-sm">Google Login</a><br><br>
     <a href="index.php?export_pdf=1" class="btn btn-info btn-sm">PDF Export</a><br><br>
     <a href="index.php?export_xl=1" class="btn btn-warning btn-sm">Excel Export</a><br><br>
+    <a href="index.php?email=1" class="btn btn-primary btn-sm">Send Mail</a><br><br>
 
     <form action="index.php" method="POST" enctype="multipart/form-data">
         <input type="file" name="excelfile" required>
