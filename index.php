@@ -201,5 +201,9 @@ $total = $query->rowCount();
     </form>
 
 </body>
-
+<script>
+// import {MyModule} from "./MyModule/MyModule.js";
+// const importFn = require('./MyModule/MyModule.js');
+// console.log(importFn);
+</script>
 </html>
